@@ -4,7 +4,7 @@ import datetime
 
 
 def get_trending_repositories(top_size):
-    request_params = 'q=created:>={}&sort=stars&order=desc'.format(str(get_days_passed())[0:10])
+    request_params = 'q=created:>={}&sort=stars&order=desc'.format(str(get_days_passed())[:10])
     github_request = requests.get(
         'https://api.github.com/search/repositories',
         request_params
