@@ -10,7 +10,7 @@ def get_trending_repositories(top_size):
         request_params
     )
     github_request_json = github_request.json()
-    return github_request_json['items'][0:top_size]
+    return github_request_json['items'][:top_size]
 
 
 def get_days_passed():
