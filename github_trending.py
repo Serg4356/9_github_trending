@@ -12,7 +12,6 @@ def get_trending_repositories(top_size, search_date):
         'https://api.github.com/search/repositories',
         request_params
     )
-    print(github_response.url)
     return github_response.json()['items'][:top_size]
 
 
@@ -24,11 +23,12 @@ def get_open_issues_amount(repo_owner, repo_name):
 
 
 def get_days_passed(days):
-    return (datetime.datetime.today() - datetime.timedelta(days=days)).strftime('%Y-%m-%d')
+    days_passed = datetime.datetime.today() - datetime.timedelta(days=days)
+    return days_passed.strftime('%Y-%m-%d')
 
 
 if __name__ == '__main__':
-    top_size = 1
+    top_size = 20
     period = 7
     print('Top {} trending repositories on Github:'.format(top_size))
     for repository in get_trending_repositories(top_size, get_days_passed(period)):
