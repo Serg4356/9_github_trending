@@ -1,18 +1,18 @@
 import requests
-import json
 import datetime
 
 
 def get_trending_repositories(top_size, search_date):
-    request_params = {'q': {
-        'created>': search_date,
+    request_params = {
+        'q': 'created:>{}'.format(search_date),
         'sort': 'stars',
         'order': 'desc'
-    }}
+    }
     github_response = requests.get(
         'https://api.github.com/search/repositories',
         request_params
     )
+    print(github_response.url)
     return github_response.json()['items'][:top_size]
 
 
@@ -23,14 +23,15 @@ def get_open_issues_amount(repo_owner, repo_name):
     return github_response.json()
 
 
-def get_days_passed():
-    return datetime.datetime.today() - datetime.timedelta(days=7)
+def get_days_passed(days):
+    return (datetime.datetime.today() - datetime.timedelta(days=days)).strftime('%Y-%m-%d')
 
 
 if __name__ == '__main__':
-    top_size = 20
+    top_size = 1
+    period = 7
     print('Top {} trending repositories on Github:'.format(top_size))
-    for repository in get_trending_repositories(top_size, str(get_days_passed())[:10]):
+    for repository in get_trending_repositories(top_size, get_days_passed(period)):
         print('{}, stars: {}, issues: {}, link: {}'.format(
             repository['name'],
             repository['stargazers_count'],
